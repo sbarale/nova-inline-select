@@ -25,8 +25,9 @@ export default {
                     let label = _.find(this.field.options, option => option.value == this.value).label;
 
                     this.$toasted.show(`${this.field.name} updated to "${label}"`, { type: 'success' });
-                }, (response) => {
-                    this.$toasted.show(response, { type: 'error' });
+                }).catch( error  => {
+                    error.message = error.response.data.errors.status[0];
+                    this.$toasted.show(error, { type: 'error' });
                 })
                 .finally(() => {
                     this.showUpdateButton = false;
